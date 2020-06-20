@@ -23,9 +23,9 @@
   var inputMapFeatures = document.querySelectorAll('.map__features');
 
   // Неактивный режим
-  window.setFieldDisabled(inputAd, true);
-  window.setFieldDisabled(inputMapFilters, true);
-  window.setFieldDisabled(inputMapFeatures, true);
+  window.util.setFieldDisabled(inputAd, true);
+  window.util.setFieldDisabled(inputMapFilters, true);
+  window.util.setFieldDisabled(inputMapFeatures, true);
   getAddress(true);
 
   // Включение активного режима
@@ -33,11 +33,11 @@
     if (typeof evt === 'object') {
       if (evt.button === 0) {
         map.classList.remove('map--faded');
-        window.setFieldDisabled(inputAd, false);
-        window.setFieldDisabled(inputMapFilters, false);
-        window.setFieldDisabled(inputMapFeatures, false);
+        window.util.setFieldDisabled(inputAd, false);
+        window.util.setFieldDisabled(inputMapFilters, false);
+        window.util.setFieldDisabled(inputMapFeatures, false);
         getAddress(false);
-        window.renderAdElements();
+        window.pin.renderAdElements();
       }
     }
   });

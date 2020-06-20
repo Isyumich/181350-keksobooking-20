@@ -6,9 +6,7 @@
 
   capacity.addEventListener('change', function () {
     if (roomNumber.value === '100') {
-      console.log('success');
       if (capacity.value !== '0') {
-        console.log('success');
         capacity.setCustomValidity('Сто комнат не для гостей');
       } else {
         capacity.setCustomValidity('');

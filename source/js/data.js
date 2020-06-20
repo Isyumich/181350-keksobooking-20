@@ -19,8 +19,8 @@
   var fieldWidth = document.body.clientWidth;
 
   var getRentalAnnouncement = function (avatarNumber) {
-    var locationX = window.getRandomNumber(MIN_X, fieldWidth);
-    var locationY = window.getRandomNumber(MIN_Y, MAX_Y);
+    var locationX = window.util.getRandomNumber(MIN_X, fieldWidth);
+    var locationY = window.util.getRandomNumber(MIN_Y, MAX_Y);
 
     return {
       'author': {
@@ -29,15 +29,15 @@
       'offer': {
         'title': 'Заголовок предложения',
         'address': locationX + ', ' + locationY,
-        'price': window.getRandomNumber(MIN_PRICE, MAX_PRICE),
-        'type': window.getRandomArrayElement(TYPE),
-        'rooms': window.getRandomArrayElement(ROOMS),
-        'guests': window.getRandomArrayElement(GUESTS),
-        'checkin': window.getRandomArrayElement(CHECKIN),
-        'checkout': window.getRandomArrayElement(CHECKOUT),
-        'features': window.getRandomArray(FEATURES),
+        'price': window.util.getRandomNumber(MIN_PRICE, MAX_PRICE),
+        'type': window.util.getRandomArrayElement(TYPE),
+        'rooms': window.util.getRandomArrayElement(ROOMS),
+        'guests': window.util.getRandomArrayElement(GUESTS),
+        'checkin': window.util.getRandomArrayElement(CHECKIN),
+        'checkout': window.util.getRandomArrayElement(CHECKOUT),
+        'features': window.util.getRandomArray(FEATURES),
         'description': 'Строка с описанием',
-        'photos': window.getRandomArray(PHOTOS),
+        'photos': window.util.getRandomArray(PHOTOS),
       },
       'location': {
         'x': locationX,
@@ -47,11 +47,14 @@
   };
 
 // Создание массива объектов
-  window.getRentalAnnouncementArray = function () {
+  var getRentalAnnouncementArray = function () {
     var rentalAnnouncementArray = [];
     for (var i = 0; i < COUNT_RENTAL_ANNOUNCEMENT; i++) {
       rentalAnnouncementArray.push(getRentalAnnouncement(i + 1));
     }
     return rentalAnnouncementArray;
+  }
+  window.data = {
+    getRentalAnnouncementArray: getRentalAnnouncementArray
   }
 })();

@@ -23,8 +23,8 @@
 // Функция рендеринга элементов
   var mapPins = document.querySelector('.map__pins');
 
-  window.renderAdElements = function () {
-    var rentalAnnouncementArray = window.getRentalAnnouncementArray();
+  var renderAdElements = function () {
+    var rentalAnnouncementArray = window.data.getRentalAnnouncementArray();
     var fragment = document.createDocumentFragment();
     for (var j = 0; j < rentalAnnouncementArray.length; j++) {
       fragment.appendChild(renderRentAnnouncement(rentalAnnouncementArray[j]));
@@ -32,4 +32,7 @@
 
     mapPins.appendChild(fragment);
   };
+  window.pin = {
+    renderAdElements: renderAdElements
+  }
 })();

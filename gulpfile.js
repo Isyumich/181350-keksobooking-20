@@ -4,7 +4,7 @@ var server = require('browser-sync').create();
 gulp.task('server', function() {
   server.init({
     server: {
-      baseDir: "source/"
+      baseDir: 'source/'
     }
   });
   gulp.watch("source/*.html").on('change', server.reload);
