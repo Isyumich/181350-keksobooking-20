@@ -45,11 +45,11 @@
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.key === 'Enter') {
       map.classList.remove('map--faded');
-      window.setFieldDisabled(inputAd, false);
-      window.setFieldDisabled(inputMapFilters, false);
-      window.setFieldDisabled(inputMapFeatures, false);
+      window.util.setFieldDisabled(inputAd, false);
+      window.util.setFieldDisabled(inputMapFilters, false);
+      window.util.setFieldDisabled(inputMapFeatures, false);
       getAddress(false);
-      window.renderAdElements();
+      window.pin.renderAdElements();
     }
   });
 })();

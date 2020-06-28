@@ -2,14 +2,14 @@
 
 (function () {
   var URL_LOAD = 'https://javascript.pages.academy/keksobooking/data';
+  var StatusCode = {
+    OK: 200
+  };
 
   var load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
-    var StatusCode = {
-      OK: 200
-    };
     var TIMEOUT_IN_MS = 10000;
 
     xhr.addEventListener('load', function () {
