@@ -61,9 +61,9 @@
     }
 
     for (var i = 0; i < features.length; i++) {
-     var li = document.createElement('li');
-       switch (features[i]) {
-         case 'wifi':
+      var li = document.createElement('li');
+        switch (features[i]) {
+          case 'wifi':
           li.className = 'popup__feature popup__feature--wifi';
         break;
         case 'dishwasher':
@@ -81,10 +81,10 @@
         case 'conditioner':
         li.className = 'popup__feature popup__feature--conditioner';
         break;
-         default:
-           li.className = '';
-       }
-       popupFeatures.appendChild(li);
+          default:
+            li.className = '';
+        }
+        popupFeatures.appendChild(li);
     };
 
     cardElement.querySelector('.popup__description').textContent = rentalDescription.offer.description;
@@ -94,13 +94,13 @@
     }
 
     for (var k = 0; k < photos.length; k++) {
-     var img = document.createElement('img');
-     img.src = photos[k];
-     img.className = 'popup__photo';
-     img.width = 45;
-     img.width = 40;
-     img.alt = 'Фотография жилья';
-     popupPhotos.appendChild(img);
+      var img = document.createElement('img');
+      img.src = photos[k];
+      img.className = 'popup__photo';
+      img.width = 45;
+      img.width = 40;
+      img.alt = 'Фотография жилья';
+      popupPhotos.appendChild(img);
     };
 
 
