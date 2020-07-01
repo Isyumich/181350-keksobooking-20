@@ -4,7 +4,7 @@
   var ELEMENT_WIDTH = 50;
   var ELEMENT_HEIGHT = 70;
 
-// Функция создания DOM элемента
+// Функция создания метки
   var pin = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
@@ -20,6 +20,7 @@
     return rentElement;
   };
 
+// Функция создания карточки с описанием
   var card = document.querySelector('#card')
   .content
   .querySelector('.map__card');
@@ -62,29 +63,10 @@
 
     for (var i = 0; i < features.length; i++) {
       var li = document.createElement('li');
-        switch (features[i]) {
-          case 'wifi':
-          li.className = 'popup__feature popup__feature--wifi';
-        break;
-        case 'dishwasher':
-          li.className = 'popup__feature popup__feature--dishwasher';
-        break;
-        case 'washer':
-          li.className = 'popup__feature popup__feature--washer';
-        break;
-        case 'parking':
-          li.className = 'popup__feature popup__feature--parking';
-        break;
-        case 'elevator':
-        li.className = 'popup__feature popup__feature--elevator';
-        break;
-        case 'conditioner':
-        li.className = 'popup__feature popup__feature--conditioner';
-        break;
-          default:
-            li.className = '';
-        }
-        popupFeatures.appendChild(li);
+
+      li.className = 'popup__feature popup__feature--' + features[i];
+
+      popupFeatures.appendChild(li);
     };
 
     cardElement.querySelector('.popup__description').textContent = rentalDescription.offer.description;
@@ -102,10 +84,29 @@
       img.alt = 'Фотография жилья';
       popupPhotos.appendChild(img);
     };
-
+    cardElement.classList.add('visually-hidden');
 
     return cardElement;
 
+  };
+
+// Функция показа элемента
+  var adCardHandler = function (collection, i) {
+    return function (){
+      for (var collectionElement of collection) {
+        if (!collectionElement.classList.contains('visuallyhidden')) {
+          collectionElement.classList.add('visually-hidden');
+        }
+      }
+      collection[i].classList.remove('visually-hidden');
+    }
+  };
+
+// Функция скрытия элемента
+  var hiddenCardHandler = function (collection, i) {
+    return function (){
+      collection[i].classList.add('visually-hidden');
+    }
   };
 
 // Функция рендеринга элементов
@@ -123,7 +124,36 @@
 
       mapPins.appendChild(pinFragment);
       map.appendChild(cardFragment);
-    }
+
+      var mapCardElements = document.querySelectorAll('.map__card');
+      var mapPinElements = document.querySelectorAll('.map__pin');
+      var closeCardButtons = document.querySelectorAll('.popup__close');
+
+      for (var l = 1; l < mapPinElements.length; l++) {
+        mapPinElements[l].addEventListener('click', adCardHandler(mapCardElements, l-1));
+
+        closeCardButtons[l-1].addEventListener('click', hiddenCardHandler(mapCardElements, l-1));
+
+        mapPinElements[l].addEventListener('keydown', function (evt) {
+          if (evt.key === 'Enter') {
+            evt.preventDefault();
+            adCardHandler(mapCardElements, l-1);
+          }
+        });
+
+        document.addEventListener('keydown', function (evt) {
+          if (evt.key === 'Escape') {
+            evt.preventDefault();
+            for (var mapCardElement of mapCardElements) {
+              if (!mapCardElement.classList.contains('visually-hidden')) {
+                mapCardElement.classList.add('visually-hidden');
+              }
+            }
+          }
+        });
+  };
+};
+
 
     var errorHandler = function (errorMessage) {
       var node = document.createElement('div');

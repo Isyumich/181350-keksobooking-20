@@ -38,7 +38,7 @@
         window.util.setFieldDisabled(inputMapFeatures, false);
         getAddress(false);
         window.pin.renderAdElements();
-      }
+        }
     }
   });
 
