@@ -73,11 +73,15 @@
   // Функция показа элемента
     var adCardHandler = function (mapElement, cardElement) {
       return function (){
-        if(document.querySelector('.map__card') !== null) {
+        var mapCard = document.querySelector('.map__card');
+        if(mapCard !== null) {
           map.removeChild(document.querySelector('.map__card'));
         }
+
         map.appendChild(renderRentDescription(cardElement));
+
         var closeCardButton = document.querySelector('.popup__close');
+
         closeCardButton.addEventListener('click', hiddenCardHandler(map));
       }
     };
