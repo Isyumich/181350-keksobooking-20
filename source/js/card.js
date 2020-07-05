@@ -11,6 +11,7 @@
     var cardElement = card.cloneNode(true);
     var popupPhotos = card.querySelector('.popup__photos');
     var popupFeatures = card.querySelector('.popup__features');
+
     var features = rentalDescription.offer.features;
     var photos = rentalDescription.offer.photos;
 
@@ -39,20 +40,6 @@
     cardElement.querySelector('.popup__text--capacity').textContent = rentalDescription.offer.rooms + ' комнаты для ' + rentalDescription.offer.rooms + 'гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' +  rentalDescription.offer.checkin + ', выезд до ' + rentalDescription.offer.checkout;
 
-    while (popupFeatures.firstChild) {
-      popupFeatures.removeChild(popupFeatures.firstChild);
-    }
-
-    for (var i = 0; i < features.length; i++) {
-      var li = document.createElement('li');
-
-      li.className = 'popup__feature popup__feature--' + features[i];
-
-      popupFeatures.appendChild(li);
-    };
-
-    cardElement.querySelector('.popup__description').textContent = rentalDescription.offer.description;
-
     while (popupPhotos.firstChild) {
       popupPhotos.removeChild(popupPhotos.firstChild);
     }
@@ -66,6 +53,20 @@
       img.alt = 'Фотография жилья';
       popupPhotos.appendChild(img);
     };
+
+    while (popupFeatures.firstChild) {
+      popupFeatures.removeChild(popupFeatures.firstChild);
+    }
+
+    for (var i = 0; i < features.length; i++) {
+      var li = document.createElement('li');
+
+      li.className = 'popup__feature popup__feature--' + features[i];
+
+      popupFeatures.appendChild(li);
+    };
+
+    cardElement.querySelector('.popup__description').textContent = rentalDescription.offer.description;
 
     return cardElement;
   };

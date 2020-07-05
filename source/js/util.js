@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var ELEMENT_MAIN_WIDTH = 65;
+  var ELEMENT_MAIN_HEIGHT = 65;
   // Функция создания случайного числа
   var getRandomNumber = function (min, max) {
     return Math.floor(min + Math.random() * (max + 1 - min));
@@ -31,10 +33,19 @@
     }
   };
 
+  // Получения адреса для метки
+  var getAddress = function (isNotActive, pin, address) {
+    var mainLocationX = Number.parseInt(pin.style.left, 10);
+    var mainLocationY = Number.parseInt(pin.style.top, 10);
+    isNotActive ? address.value = Math.round(mainLocationX - ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY - ELEMENT_MAIN_HEIGHT / 2)
+    : address.value = Math.round(mainLocationX - ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY - ELEMENT_MAIN_HEIGHT);
+      };
+
   window.util = {
     getRandomNumber: getRandomNumber,
     getRandomArrayElement: getRandomArrayElement,
     getRandomArray: getRandomArray,
-    setFieldDisabled: setFieldDisabled
+    setFieldDisabled: setFieldDisabled,
+    getAddress: getAddress
   }
 })();

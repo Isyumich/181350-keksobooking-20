@@ -1,20 +1,10 @@
 'use strict';
 
 (function () {
-  var ELEMENT_MAIN_WIDTH = 65;
-  var ELEMENT_MAIN_HEIGHT = 65;
-
   // Функция заполнения поля Адрес
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
-  var mainLocationX = Number.parseInt(mapPinMain.style.left, 10);
-  var mainLocationY = Number.parseInt(mapPinMain.style.top, 10);
   var mainAddress = document.querySelector('#address');
-
-  var getAddress = function (isNotActive) {
-    isNotActive ? mainAddress.value = Math.round(mainLocationX - ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY - ELEMENT_MAIN_HEIGHT / 2)
-      : mainAddress.value = Math.round(mainLocationX - ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY - ELEMENT_MAIN_HEIGHT);
-  };
 
   // БЛОКИРОВКА/РАЗБЛОКИРОВКА ПОЛЕЙ ВВОДА И КАРТЫ
 
@@ -26,7 +16,7 @@
   window.util.setFieldDisabled(inputAd, true);
   window.util.setFieldDisabled(inputMapFilters, true);
   window.util.setFieldDisabled(inputMapFeatures, true);
-  getAddress(true);
+  window.util.getAddress(true, mapPinMain, mainAddress);
 
   // Включение активного режима
   mapPinMain.addEventListener('mousedown', function (evt) {
@@ -36,10 +26,10 @@
         window.util.setFieldDisabled(inputAd, false);
         window.util.setFieldDisabled(inputMapFilters, false);
         window.util.setFieldDisabled(inputMapFeatures, false);
-        getAddress(false);
+        window.util.getAddress(false, mapPinMain, mainAddress);
         window.pin.renderAdElements();
-        }
-    }
+      }
+   }
   });
 
   mapPinMain.addEventListener('keydown', function (evt) {
@@ -48,7 +38,7 @@
       window.util.setFieldDisabled(inputAd, false);
       window.util.setFieldDisabled(inputMapFilters, false);
       window.util.setFieldDisabled(inputMapFeatures, false);
-      getAddress(false);
+      window.util.getAddress(false, mapPinMain, mainAddress);
       window.pin.renderAdElements();
     }
   });
