@@ -9,8 +9,8 @@
 
   var renderRentDescription = function (rentalDescription) {
     var cardElement = card.cloneNode(true);
-    var popupPhotos = card.querySelector('.popup__photos');
-    var popupFeatures = card.querySelector('.popup__features');
+    var popupPhotos = cardElement.querySelector('.popup__photos');
+    var popupFeatures = cardElement.querySelector('.popup__features');
 
     var features = rentalDescription.offer.features;
     var photos = rentalDescription.offer.photos;
@@ -71,12 +71,12 @@
     return cardElement;
   };
 
-  // Функция показа элемента
+  // Функция показа карточки
     var adCardHandler = function (mapElement, cardElement) {
       return function (){
         var mapCard = document.querySelector('.map__card');
         if(mapCard !== null) {
-          map.removeChild(document.querySelector('.map__card'));
+          map.removeChild(mapCard);
         }
 
         map.appendChild(renderRentDescription(cardElement));
@@ -86,7 +86,7 @@
         closeCardButton.addEventListener('click', hiddenCardHandler(map));
       }
     };
-  // Функция скрытия элемента
+  // Функция закрытия карточки
     var hiddenCardHandler = function (element) {
       return function (){
         var cardElement = document.querySelector('.map__card');
