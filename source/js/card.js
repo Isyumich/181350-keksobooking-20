@@ -9,8 +9,9 @@
 
   var renderRentDescription = function (rentalDescription) {
     var cardElement = card.cloneNode(true);
-    var popupPhotos = card.querySelector('.popup__photos');
-    var popupFeatures = card.querySelector('.popup__features');
+    var popupPhotos = cardElement.querySelector('.popup__photos');
+    var popupFeatures = cardElement.querySelector('.popup__features');
+
     var features = rentalDescription.offer.features;
     var photos = rentalDescription.offer.photos;
 
@@ -39,20 +40,6 @@
     cardElement.querySelector('.popup__text--capacity').textContent = rentalDescription.offer.rooms + ' комнаты для ' + rentalDescription.offer.rooms + 'гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' +  rentalDescription.offer.checkin + ', выезд до ' + rentalDescription.offer.checkout;
 
-    while (popupFeatures.firstChild) {
-      popupFeatures.removeChild(popupFeatures.firstChild);
-    }
-
-    for (var i = 0; i < features.length; i++) {
-      var li = document.createElement('li');
-
-      li.className = 'popup__feature popup__feature--' + features[i];
-
-      popupFeatures.appendChild(li);
-    };
-
-    cardElement.querySelector('.popup__description').textContent = rentalDescription.offer.description;
-
     while (popupPhotos.firstChild) {
       popupPhotos.removeChild(popupPhotos.firstChild);
     }
@@ -67,15 +54,29 @@
       popupPhotos.appendChild(img);
     };
 
+    while (popupFeatures.firstChild) {
+      popupFeatures.removeChild(popupFeatures.firstChild);
+    }
+
+    for (var i = 0; i < features.length; i++) {
+      var li = document.createElement('li');
+
+      li.className = 'popup__feature popup__feature--' + features[i];
+
+      popupFeatures.appendChild(li);
+    };
+
+    cardElement.querySelector('.popup__description').textContent = rentalDescription.offer.description;
+
     return cardElement;
   };
 
-  // Функция показа элемента
+  // Функция показа карточки
     var adCardHandler = function (mapElement, cardElement) {
       return function (){
         var mapCard = document.querySelector('.map__card');
         if(mapCard !== null) {
-          map.removeChild(document.querySelector('.map__card'));
+          map.removeChild(mapCard);
         }
 
         map.appendChild(renderRentDescription(cardElement));
@@ -85,7 +86,7 @@
         closeCardButton.addEventListener('click', hiddenCardHandler(map));
       }
     };
-  // Функция скрытия элемента
+  // Функция закрытия карточки
     var hiddenCardHandler = function (element) {
       return function (){
         var cardElement = document.querySelector('.map__card');

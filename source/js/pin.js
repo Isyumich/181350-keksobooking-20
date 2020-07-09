@@ -66,7 +66,18 @@
 
     window.backend.load(successHandler, errorHandler);
   };
+
+  var deleteAdElements = function () {
+    var mapPinElements = mapPins.querySelectorAll('.map__pin');
+    var mapPinMain = mapPins.querySelector('.map__pin--main');
+    for (var i = 0; i < mapPinElements.length; i++) {
+      if (mapPinElements[i] !== mapPinMain) {
+        mapPins.removeChild(mapPinElements[i]);
+      }
+    };
+  };
   window.pin = {
-    renderAdElements: renderAdElements
+    renderAdElements: renderAdElements,
+    deleteAdElements: deleteAdElements
   }
 })();
