@@ -53,12 +53,12 @@
 
   // Включение активного режима
   var onActiveMode = function () {
-        map.classList.remove('map--faded');
-        window.util.setFieldDisabled(inputAd, false);
-        window.util.setFieldDisabled(inputMapFilters, false);
-        window.util.setFieldDisabled(inputMapFeatures, false);
-        getAddress(false, mapPinMain, mainAddress);
-        window.pin.renderAdElements();
+    map.classList.remove('map--faded');
+    window.util.setFieldDisabled(inputAd, false);
+    window.util.setFieldDisabled(inputMapFilters, false);
+    window.util.setFieldDisabled(inputMapFeatures, false);
+    getAddress(false, mapPinMain, mainAddress);
+    window.pin.renderAdElements();
   };
 
   mapPinMain.addEventListener('keydown', function (evt) {
@@ -67,7 +67,7 @@
     }
   });
 
-    mapPinMain.addEventListener('mousedown', function (evt) {
+  mapPinMain.addEventListener('mousedown', function (evt) {
     if (typeof evt === 'object') {
       if (evt.button === 0) {
         window.pin.deleteAdElements();
@@ -114,4 +114,7 @@
     }
   });
 
+  window.form = {
+    getAddress: getAddress
+  }
 })();

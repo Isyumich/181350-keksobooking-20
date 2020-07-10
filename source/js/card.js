@@ -3,8 +3,8 @@
 (function () {
   // Функция создания карточки с описанием
   var card = document.querySelector('#card')
-  .content
-  .querySelector('.map__card');
+    .content
+    .querySelector('.map__card');
   var map = document.querySelector('.map');
 
   var renderRentDescription = function (rentalDescription) {
@@ -72,29 +72,38 @@
   };
 
   // Функция показа карточки
-    var adCardHandler = function (mapElement, cardElement) {
-      return function (){
-        var mapCard = document.querySelector('.map__card');
-        if(mapCard !== null) {
-          map.removeChild(mapCard);
-        }
-
-        map.appendChild(renderRentDescription(cardElement));
-
-        var closeCardButton = document.querySelector('.popup__close');
-
-        closeCardButton.addEventListener('click', hiddenCardHandler(map));
+  var adCardHandler = function (mapElement, cardElement) {
+    return function (){
+      var mapCard = document.querySelector('.map__card');
+      if(mapCard !== null) {
+        map.removeChild(mapCard);
       }
-    };
+
+      map.appendChild(renderRentDescription(cardElement));
+
+      var closeCardButton = document.querySelector('.popup__close');
+
+      closeCardButton.addEventListener('click', hiddenCardHandler(map));
+      document.addEventListener('keydown', hiddenCardHandlerEscape);
+    }
+  };
   // Функция закрытия карточки
-    var hiddenCardHandler = function (element) {
-      return function (){
-        var cardElement = document.querySelector('.map__card');
-        element.removeChild(cardElement);
-      }
-    };
+  var hiddenCardHandler = function (element) {
+    return function (){
+      var cardElement = document.querySelector('.map__card');
+      element.removeChild(cardElement);
+    }
+  };
 
-      window.card = {
-        adCardHandler: adCardHandler
-      }
+  var hiddenCardHandlerEscape = function (evt) {
+    if (evt.key === 'Escape') {
+      var cardElement = document.querySelector('.map__card');
+      map.removeChild(cardElement);
+      document.removeEventListener('keydown', hiddenCardHandlerEscape);
+    }
+  }
+
+  window.card = {
+    adCardHandler: adCardHandler
+  }
 })();

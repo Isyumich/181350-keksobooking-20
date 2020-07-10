@@ -43,13 +43,9 @@
             window.card.adCardHandler(mapPinElements[l], pins[l-1]);
           }
         });
-  };
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Escape') {
-      map.removeChild(document.querySelector('.map__card'));
-    }
-  });
-};
+      };
+      // document.addEventListener('keydown', closeCard);
+    };
 
 
     var errorHandler = function (errorMessage) {
