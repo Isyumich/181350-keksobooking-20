@@ -1,117 +1,95 @@
-'use strict';
-
 (function () {
-  var ELEMENT_MAIN_WIDTH = 65;
-  var ELEMENT_MAIN_HEIGHT = 65;
-  var MIN_Y = 130;
-  var MAX_Y = 630;
+  var form = document.querySelector('.ad-form');
+  var body = document.querySelector('body');
 
-  var getAddress = function (isNotActive, pin, address) {
-    var mainLocationX = Number.parseInt(pin.style.left, 10);
-    var mainLocationY = Number.parseInt(pin.style.top, 10);
-    isNotActive ? address.value = Math.round(mainLocationX + ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY + ELEMENT_MAIN_HEIGHT / 2)
-      : address.value = Math.round(mainLocationX + ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY + ELEMENT_MAIN_HEIGHT);
+  // Функция получения успешного сообщения
+  var getSuccessMessage = function () {
+    var successMessage = document.querySelector('#success').content.querySelector('.success');
+    var elementSuccessMessage = successMessage.cloneNode(true);
+    body.appendChild(elementSuccessMessage);
   };
 
-  var getMoveLimit = function () {
-    var body = document.querySelector('body');
-    var fieldWidth = Number.parseInt(getComputedStyle(body).maxWidth, 10);
-    var mainLocationX = Number.parseInt(mapPinMain.style.left, 10) + ELEMENT_MAIN_WIDTH / 2;
-    var mainLocationY = Number.parseInt(mapPinMain.style.top, 10) + ELEMENT_MAIN_HEIGHT;
+  // Функция получения сообщения об ошибке
+  var getErrorMessage = function () {
+    var errorMessage = document.querySelector('#error').content.querySelector('.error');
+    var elementErrorMessage = errorMessage.cloneNode(true);
+    body.appendChild(elementErrorMessage);
+  };
 
+  // Функции закрытия сообщения об успешной закрузке
+  var closeSuccessMessage = function () {
+    var successMessageContainer = body.querySelector('.success');
+    body.removeChild(successMessageContainer);
+    form.reset();
+    document.removeEventListener('click', closeSuccessMessage);
+    document.removeEventListener('keydown', closeSuccessMessageEscape);
+  };
 
-    if (mainLocationX < 0) {
-      mapPinMain.style.left = 0 - ELEMENT_MAIN_WIDTH / 2 + 'px';
-    };
-    if (mainLocationX > fieldWidth) {
-      mapPinMain.style.left = fieldWidth - ELEMENT_MAIN_WIDTH / 2 + 'px';
-    };
-    if (mainLocationY < MIN_Y) {
-      mapPinMain.style.top = MIN_Y - ELEMENT_MAIN_HEIGHT + 'px';
-    };
-    if (mainLocationY > MAX_Y) {
-      mapPinMain.style.top = MAX_Y - ELEMENT_MAIN_HEIGHT + 'px';
-    };
-  }
+  var closeSuccessMessageEscape = function (evt) {
+    if (evt.key === 'Escape') {
+      closeSuccessMessage();
+    }
+  };
 
-  // Функция заполнения поля Адрес
+  // Функции закрытия сообщения об ошибке
+
+  var closeErrorMessage = function () {
+    var errorMessageContainer = body.querySelector('.error');
+    body.removeChild(errorMessageContainer);
+    form.reset();
+    document.removeEventListener('click', closeErrorMessage);
+    document.removeEventListener('keydown', closeErrorMessageEscape);
+  };
+
+  var closeErrorMessageEscape = function (evt) {
+    if (evt.key === 'Escape') {
+      closeErrorMessage();
+    }
+  };
+
+  var errorHandler = function () {
+    getErrorMessage();
+
+    var errorMessageContainer = body.querySelector('.error');
+    var errorButton = errorMessageContainer.querySelector('.error__button');
+
+    errorButton.addEventListener('click', closeErrorMessage);
+
+    document.addEventListener('keydown', closeErrorMessageEscape);
+
+    document.addEventListener('click', closeErrorMessage);
+  };
+
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
   var mainAddress = document.querySelector('#address');
-
-  // БЛОКИРОВКА/РАЗБЛОКИРОВКА ПОЛЕЙ ВВОДА И КАРТЫ
-
   var inputAd = document.querySelectorAll('.ad-form__element');
   var inputMapFilters = document.querySelectorAll('.map__filter');
   var inputMapFeatures = document.querySelectorAll('.map__features');
 
-  // Неактивный режим
-  window.util.setFieldDisabled(inputAd, true);
-  window.util.setFieldDisabled(inputMapFilters, true);
-  window.util.setFieldDisabled(inputMapFeatures, true);
-  getAddress(true, mapPinMain, mainAddress);
+  var onLoad = function () {
+    getSuccessMessage();
+    window.util.setFieldDisabled(inputAd, true);
+    window.util.setFieldDisabled(inputMapFilters, true);
+    window.util.setFieldDisabled(inputMapFeatures, true);
+    window.isActiveMode.getAddress(true, mapPinMain, mainAddress);
+    map.classList.add('map--faded');
+    window.pin.deleteAdElements();
 
-  // Включение активного режима
-  var onActiveMode = function () {
-        map.classList.remove('map--faded');
-        window.util.setFieldDisabled(inputAd, false);
-        window.util.setFieldDisabled(inputMapFilters, false);
-        window.util.setFieldDisabled(inputMapFeatures, false);
-        getAddress(false, mapPinMain, mainAddress);
-        window.pin.renderAdElements();
+    document.addEventListener('keydown', closeSuccessMessageEscape);
+    document.addEventListener('click', closeSuccessMessage);
   };
 
-  mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
-      onActiveMode();
-    }
-  });
+  var submitHandler = function (evt) {
+    window.backend.save(new FormData(form), onLoad, errorHandler);
+    evt.preventDefault();
+  };
 
-    mapPinMain.addEventListener('mousedown', function (evt) {
-    if (typeof evt === 'object') {
-      if (evt.button === 0) {
-        window.pin.deleteAdElements();
+  form.addEventListener('submit', submitHandler);
 
-        var startCoords = {
-          x: evt.clientX,
-          y: evt.clientY
-        };
+  var resetButton = document.querySelector('.ad-form__reset');
 
-        var onMouseMove = function (moveEvt) {
-          moveEvt.preventDefault();
-
-          var shift = {
-            x: startCoords.x - moveEvt.clientX,
-            y: startCoords.y - moveEvt.clientY
-          };
-
-          startCoords = {
-            x: moveEvt.clientX,
-            y: moveEvt.clientY
-          };
-
-          mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
-          mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
-
-          getMoveLimit();
-
-          getAddress(false, mapPinMain, mainAddress);
-        };
-
-        var onMouseUp = function (upEvt) {
-          upEvt.preventDefault();
-
-          document.removeEventListener('mousemove', onMouseMove);
-          document.removeEventListener('mouseup', onMouseUp);
-          onActiveMode();
-
-          getAddress(false, mapPinMain, mainAddress);
-        };
-
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-      }
-    }
-  });
-
+  resetButton.addEventListener('click', function () {
+    form.reset();
+  })
 })();

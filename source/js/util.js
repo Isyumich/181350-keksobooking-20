@@ -31,7 +31,7 @@
     }
   };
 
-  // Получения адреса для метки
+
 
   window.util = {
     getRandomNumber: getRandomNumber,
