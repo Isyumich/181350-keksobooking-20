@@ -104,6 +104,7 @@
   }
 
   window.card = {
-    adCardHandler: adCardHandler
+    adCardHandler: adCardHandler,
+    hiddenCardHandler: hiddenCardHandler
   }
 })();

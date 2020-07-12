@@ -3,6 +3,7 @@
 (function () {
   var ELEMENT_WIDTH = 50;
   var ELEMENT_HEIGHT = 70;
+  var PINS_COUNT = 5;
 
 // Функция создания метки
   var pin = document.querySelector('#pin')
@@ -22,13 +23,19 @@
 
 // Функция рендеринга элементов
   var mapPins = document.querySelector('.map__pins');
-  var map = document.querySelector('.map');
 
   var renderAdElements = function () {
-    var successHandler = function (pins) {
+    var successHandler = function (data) {
+      var pins = data;
+      var filterPins = window.filter.getFilterPins(pins);
+      var indexFilterPins = window.filter.getIndexFilterPins(pins);
+
+      var pinsCount;
       var pinFragment = document.createDocumentFragment();
-      for (var j = 0; j < pins.length; j++) {
-        pinFragment.appendChild(renderRentAnnouncement(pins[j]));
+      filterPins.length > PINS_COUNT ? pinsCount = PINS_COUNT : pinsCount = filterPins.length;
+
+      for (var j = 0; j < pinsCount; j++) {
+        pinFragment.appendChild(renderRentAnnouncement(filterPins[j]));
       }
 
       mapPins.appendChild(pinFragment);
@@ -36,15 +43,17 @@
       var mapPinElements = document.querySelectorAll('.map__pin');
 
       for (var l = 1; l < mapPinElements.length; l++) {
-        mapPinElements[l].addEventListener('click', window.card.adCardHandler(mapPinElements[l], pins[l-1]));
+        var elementNumber = indexFilterPins[l-1];
+        mapPinElements[l].addEventListener('click', window.card.adCardHandler(mapPinElements[l], pins[elementNumber]));
 
         mapPinElements[l].addEventListener('keydown', function (evt) {
           if (evt.key === 'Enter') {
-            window.card.adCardHandler(mapPinElements[l], pins[l-1]);
+            window.card.adCardHandler(mapPinElements[l], pins[elementNumber]);
           }
         });
       };
-      // document.addEventListener('keydown', closeCard);
+      var inputMapFilters = document.querySelectorAll('.map__filter');
+      window.util.setFieldDisabled(inputMapFilters, false);
     };
 
 
