@@ -1,6 +1,7 @@
 (function () {
   var form = document.querySelector('.ad-form');
   var body = document.querySelector('body');
+  var map = document.querySelector('.map');
 
   // Функция получения успешного сообщения
   var getSuccessMessage = function () {
@@ -72,7 +73,7 @@
     window.util.setFieldDisabled(inputAd, true);
     window.util.setFieldDisabled(inputMapFilters, true);
     window.util.setFieldDisabled(inputMapFeatures, true);
-    window.isActiveMode.getAddress(true, mapPinMain, mainAddress);
+    window.toggle.getAddress(true, mapPinMain, mainAddress);
     map.classList.add('map--faded');
     window.pin.deleteAdElements();
 
@@ -92,4 +93,17 @@
   resetButton.addEventListener('click', function () {
     form.reset();
   })
+
+  var showFilterPins = function () {
+    window.pin.deleteAdElements();
+    window.pin.renderAdElements();
+    var cardElement = document.querySelector('.map__card');
+    if (cardElement !== null) {
+      map.removeChild(cardElement);
+    }
+  }
+
+  var filterForm = document.querySelector('.map__filters');
+  var housingType = filterForm.querySelector('#housing-type');
+  housingType.addEventListener('change', showFilterPins);
 })();

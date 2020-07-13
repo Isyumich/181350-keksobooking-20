@@ -55,7 +55,7 @@
   var onActiveMode = function () {
     map.classList.remove('map--faded');
     window.util.setFieldDisabled(inputAd, false);
-    window.util.setFieldDisabled(inputMapFilters, false);
+    // window.util.setFieldDisabled(inputMapFilters, false);
     window.util.setFieldDisabled(inputMapFeatures, false);
     getAddress(false, mapPinMain, mainAddress);
     window.pin.renderAdElements();
@@ -114,7 +114,7 @@
     }
   });
 
-  window.isActiveMode = {
+  window.toggle = {
     getAddress: getAddress
   }
 })();
