@@ -28,7 +28,7 @@
     var successHandler = function (data) {
       var pins = data;
       var filterPins = window.filter.getFilterPins(pins);
-      var indexFilterPins = window.filter.getIndexFilterPins(pins);
+      var indexFilterPins = window.filter.getIndexFilterPins(filterPins, pins);
 
       var pinsCount;
       var pinFragment = document.createDocumentFragment();

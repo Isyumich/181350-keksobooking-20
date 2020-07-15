@@ -105,5 +105,15 @@
 
   var filterForm = document.querySelector('.map__filters');
   var housingType = filterForm.querySelector('#housing-type');
-  housingType.addEventListener('change', showFilterPins);
+  var housingPrice = filterForm.querySelector('#housing-price');
+  var housingRooms = filterForm.querySelector('#housing-rooms');
+  var housingGuests = filterForm.querySelector('#housing-guests');
+  var features = filterForm.querySelectorAll('.map__checkbox');
+  housingType.addEventListener('change', window.debounce.debounce(showFilterPins));
+  housingPrice.addEventListener('change', window.debounce.debounce(showFilterPins));
+  housingRooms.addEventListener('change', window.debounce.debounce(showFilterPins));
+  housingGuests.addEventListener('change', window.debounce.debounce(showFilterPins));
+  for (var feature of features) {
+    feature.addEventListener('change', window.debounce.debounce(showFilterPins));
+  };
 })();
