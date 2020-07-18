@@ -87,11 +87,14 @@
       document.addEventListener('keydown', hiddenCardHandlerEscape);
     }
   };
+
   // Функция закрытия карточки
   var hiddenCardHandler = function (element) {
     return function (){
       var cardElement = document.querySelector('.map__card');
-      element.removeChild(cardElement);
+      if (cardElement) {
+        element.removeChild(cardElement);
+      }
     }
   };
 
