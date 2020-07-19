@@ -94,8 +94,6 @@
   }
 
   var onLoad = function () {
-    // window.validation.setValidCapacity();
-    // window.validation.setValidTypeField();
     getSuccessMessage();
     setNotActiveMode();
 
