@@ -5,6 +5,7 @@
   var ELEMENT_MAIN_HEIGHT = 65;
   var MIN_Y = 130;
   var MAX_Y = 630;
+  var ENTER_BUTTON = 'Enter';
 
   var getAddress = function (isNotActive, pin, address) {
     var mainLocationX = Number.parseInt(pin.style.left, 10);
@@ -79,7 +80,7 @@
   };
 
   mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
+    if (evt.key === ENTER_BUTTON) {
       onActiveMode();
     }
   });

@@ -1,4 +1,6 @@
 (function () {
+  var ESCAPE_BUTTON = 'Escape';
+
   var filterForm = document.querySelector('.map__filters');
   var form = document.querySelector('.ad-form');
   var body = document.querySelector('body');
@@ -28,37 +30,37 @@
   };
 
   // Функции закрытия сообщения об успешной закрузке
-  var closeSuccessMessage = function () {
+  var closeSuccessClickHandler = function () {
     var successMessageContainer = body.querySelector('.success');
     body.removeChild(successMessageContainer);
     form.reset();
     filterForm.reset();
     window.toggle.getAddress(true, mapPinMain, mainAddress);
-    document.removeEventListener('click', closeSuccessMessage);
-    document.removeEventListener('keydown', closeSuccessMessageEscape);
+    document.removeEventListener('click', closeSuccessClickHandler);
+    document.removeEventListener('keydown', closeSuccessEscapeHandler);
   };
 
-  var closeSuccessMessageEscape = function (evt) {
-    if (evt.key === 'Escape') {
-      closeSuccessMessage();
+  var closeSuccessEscapeHandler = function (evt) {
+    if (evt.key === ESCAPE_BUTTON) {
+      closeSuccessClickHandler();
     }
   };
 
   // Функции закрытия сообщения об ошибке
 
-  var closeErrorMessage = function () {
+  var closeErrorClickHandler = function () {
     var errorMessageContainer = body.querySelector('.error');
     body.removeChild(errorMessageContainer);
     filterForm.reset();
     form.reset();
     window.toggle.getAddress(true, mapPinMain, mainAddress);
-    document.removeEventListener('click', closeErrorMessage);
-    document.removeEventListener('keydown', closeErrorMessageEscape);
+    document.removeEventListener('click', closeErrorClickHandler);
+    document.removeEventListener('keydown', closeErrorEscapeHandler);
   };
 
-  var closeErrorMessageEscape = function (evt) {
-    if (evt.key === 'Escape') {
-      closeErrorMessage();
+  var closeErrorEscapeHandler = function (evt) {
+    if (evt.key === ESCAPE_BUTTON) {
+      closeErrorClickHandler();
     }
   };
 
@@ -68,11 +70,11 @@
     var errorMessageContainer = body.querySelector('.error');
     var errorButton = errorMessageContainer.querySelector('.error__button');
 
-    errorButton.addEventListener('click', closeErrorMessage);
+    errorButton.addEventListener('click', closeErrorClickHandler);
 
-    document.addEventListener('keydown', closeErrorMessageEscape);
+    document.addEventListener('keydown', closeErrorEscapeHandler);
 
-    document.addEventListener('click', closeErrorMessage);
+    document.addEventListener('click', closeErrorClickHandler);
   };
 
   var mainAddress = document.querySelector('#address');
@@ -97,8 +99,8 @@
     getSuccessMessage();
     setNotActiveMode();
 
-    document.addEventListener('keydown', closeSuccessMessageEscape);
-    document.addEventListener('click', closeSuccessMessage);
+    document.addEventListener('keydown', closeSuccessEscapeHandler);
+    document.addEventListener('click', closeSuccessClickHandler);
   };
 
   var submitHandler = function (evt) {

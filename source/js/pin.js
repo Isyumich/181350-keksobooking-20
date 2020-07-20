@@ -4,6 +4,7 @@
   var ELEMENT_WIDTH = 50;
   var ELEMENT_HEIGHT = 70;
   var PINS_COUNT = 5;
+  var ENTER_BUTTON = 'Enter';
 
 // Функция создания метки
   var pin = document.querySelector('#pin')
@@ -42,16 +43,17 @@
 
       var mapPinElements = document.querySelectorAll('.map__pin');
 
-      for (var l = 1; l < mapPinElements.length; l++) {
-        var elementNumber = indexFilterPins[l-1];
-        mapPinElements[l].addEventListener('click', window.card.adCardHandler(mapPinElements[l], pins[elementNumber]));
+      mapPinElements.forEach(function (item, i, mapPinElements) {
+        var elementNumber = indexFilterPins[i-1];
+        mapPinElements[i].addEventListener('click', window.card.adCardHandler(mapPinElements[i], pins[elementNumber]));
 
-        mapPinElements[l].addEventListener('keydown', function (evt) {
-          if (evt.key === 'Enter') {
-            window.card.adCardHandler(mapPinElements[l], pins[elementNumber]);
+        mapPinElements[i].addEventListener('keydown', function (evt) {
+          if (evt.key === ENTER_BUTTON) {
+            window.card.adCardHandler(mapPinElements[i], pins[elementNumber]);
           }
         });
-      };
+      })
+
       var inputMapFilters = document.querySelectorAll('.map__filter');
       window.util.setFieldDisabled(inputMapFilters, false);
     };

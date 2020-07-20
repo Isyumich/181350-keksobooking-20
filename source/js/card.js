@@ -1,6 +1,26 @@
 'use strict';
 
 (function () {
+  var IMAGE_WIDTH = 45;
+  var IMAGE_HEIGHT = 40;
+  var IMAGE_DESCRIPTION = 'Фотография жилья';
+
+  var ESCAPE_BUTTON = 'Escape';
+
+  var TypeOfHousing = {
+    BUNGALO: 'bungalo',
+    FLAT: 'flat',
+    HOUSE: 'house',
+    PALACE: 'palace'
+  };
+
+  var TranscriptTypeOfHousing = {
+    BUNGALO: 'Бунгало',
+    FLAT: 'Квартира',
+    HOUSE: 'Дом',
+    PALACE: 'Дворец',
+    DEFAULT: 'Жилье'
+  };
   // Функция создания карточки с описанием
   var card = document.querySelector('#card')
     .content
@@ -21,20 +41,20 @@
     cardElement.querySelector('.popup__text--price').textContent = rentalDescription.offer.price + '₽/ночь';
 
     switch (rentalDescription.offer.type) {
-      case 'flat':
-        cardElement.querySelector('.popup__type').textContent = 'Квартира';
+      case TypeOfHousing.FLAT:
+        cardElement.querySelector('.popup__type').textContent = TranscriptTypeOfHousing.FLAT;
         break;
-      case 'bungalo':
-        cardElement.querySelector('.popup__type').textContent = 'Бунгало';
+      case TypeOfHousing.BUNGALO:
+        cardElement.querySelector('.popup__type').textContent = TranscriptTypeOfHousing.BUNGALO;
         break;
-      case 'house':
-        cardElement.querySelector('.popup__type').textContent = 'Дом';
+      case TypeOfHousing.HOUSE:
+        cardElement.querySelector('.popup__type').textContent = TranscriptTypeOfHousing.HOUSE;
         break;
-      case 'palace':
-        cardElement.querySelector('.popup__type').textContent = 'Дворец';
+      case TypeOfHousing.PALACE:
+        cardElement.querySelector('.popup__type').textContent = TranscriptTypeOfHousing.PALACE;
         break;
       default:
-        cardElement.querySelector('.popup__type').textContent = 'Жилье';
+        cardElement.querySelector('.popup__type').textContent = TranscriptTypeOfHousing.DEFAULT;
     }
 
     cardElement.querySelector('.popup__text--capacity').textContent = rentalDescription.offer.rooms + ' комнаты для ' + rentalDescription.offer.guests + 'гостей';
@@ -43,28 +63,27 @@
     while (popupPhotos.firstChild) {
       popupPhotos.removeChild(popupPhotos.firstChild);
     }
-
-    for (var k = 0; k < photos.length; k++) {
+    photos.forEach(function (item) {
       var img = document.createElement('img');
-      img.src = photos[k];
+      img.src = item;
       img.className = 'popup__photo';
-      img.width = 45;
-      img.width = 40;
-      img.alt = 'Фотография жилья';
+      img.width = IMAGE_WIDTH;
+      img.height = IMAGE_HEIGHT;
+      img.alt = IMAGE_DESCRIPTION;
       popupPhotos.appendChild(img);
-    };
+    });
 
     while (popupFeatures.firstChild) {
       popupFeatures.removeChild(popupFeatures.firstChild);
     }
 
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (item) {
       var li = document.createElement('li');
 
-      li.className = 'popup__feature popup__feature--' + features[i];
+      li.className = 'popup__feature popup__feature--' + item;
 
       popupFeatures.appendChild(li);
-    };
+    });
 
     cardElement.querySelector('.popup__description').textContent = rentalDescription.offer.description;
 
@@ -99,9 +118,11 @@
   };
 
   var hiddenCardHandlerEscape = function (evt) {
-    if (evt.key === 'Escape') {
+    if (evt.key === ESCAPE_BUTTON) {
       var cardElement = document.querySelector('.map__card');
-      map.removeChild(cardElement);
+      if (cardElement) {
+        map.removeChild(cardElement);
+      }
       document.removeEventListener('keydown', hiddenCardHandlerEscape);
     }
   }

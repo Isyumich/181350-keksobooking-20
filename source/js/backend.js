@@ -3,6 +3,7 @@
 (function () {
   var URL_LOAD = 'https://javascript.pages.academy/keksobooking/data';
   var URL_SAVE = 'https://javascript.pages.academy/keksobooking';
+  var TIMEOUT_IN_MS = 10000;
 
   var StatusCode = {
     OK: 200
@@ -27,8 +28,6 @@
   var load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-
-    var TIMEOUT_IN_MS = 10000;
 
     xhr.addEventListener('load', function () {
       xhr.status === StatusCode.OK ? onSuccess(xhr.response) : onError('Статус ответа: ' + xhr.status + xhr.statusText);
