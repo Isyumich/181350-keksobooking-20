@@ -1,7 +1,19 @@
 (function () {
+  var ESCAPE_BUTTON = 'Escape';
+
+  var filterForm = document.querySelector('.map__filters');
   var form = document.querySelector('.ad-form');
   var body = document.querySelector('body');
   var map = document.querySelector('.map');
+  var mapPinMain = map.querySelector('.map__pin--main');
+  var mainLocationXDefault = mapPinMain.style.left;
+  var mainLocationYDefault = mapPinMain.style.top;
+
+  // Функция возврата метки в исходное положение
+  var getDefaultPinPosition = function () {
+    mapPinMain.style.left = mainLocationXDefault;
+    mapPinMain.style.top = mainLocationYDefault;
+  }
 
   // Функция получения успешного сообщения
   var getSuccessMessage = function () {
@@ -18,33 +30,37 @@
   };
 
   // Функции закрытия сообщения об успешной закрузке
-  var closeSuccessMessage = function () {
+  var closeSuccessClickHandler = function () {
     var successMessageContainer = body.querySelector('.success');
     body.removeChild(successMessageContainer);
     form.reset();
-    document.removeEventListener('click', closeSuccessMessage);
-    document.removeEventListener('keydown', closeSuccessMessageEscape);
+    filterForm.reset();
+    window.toggle.getAddress(true, mapPinMain, mainAddress);
+    document.removeEventListener('click', closeSuccessClickHandler);
+    document.removeEventListener('keydown', closeSuccessEscapeHandler);
   };
 
-  var closeSuccessMessageEscape = function (evt) {
-    if (evt.key === 'Escape') {
-      closeSuccessMessage();
+  var closeSuccessEscapeHandler = function (evt) {
+    if (evt.key === ESCAPE_BUTTON) {
+      closeSuccessClickHandler();
     }
   };
 
   // Функции закрытия сообщения об ошибке
 
-  var closeErrorMessage = function () {
+  var closeErrorClickHandler = function () {
     var errorMessageContainer = body.querySelector('.error');
     body.removeChild(errorMessageContainer);
+    filterForm.reset();
     form.reset();
-    document.removeEventListener('click', closeErrorMessage);
-    document.removeEventListener('keydown', closeErrorMessageEscape);
+    window.toggle.getAddress(true, mapPinMain, mainAddress);
+    document.removeEventListener('click', closeErrorClickHandler);
+    document.removeEventListener('keydown', closeErrorEscapeHandler);
   };
 
-  var closeErrorMessageEscape = function (evt) {
-    if (evt.key === 'Escape') {
-      closeErrorMessage();
+  var closeErrorEscapeHandler = function (evt) {
+    if (evt.key === ESCAPE_BUTTON) {
+      closeErrorClickHandler();
     }
   };
 
@@ -54,31 +70,37 @@
     var errorMessageContainer = body.querySelector('.error');
     var errorButton = errorMessageContainer.querySelector('.error__button');
 
-    errorButton.addEventListener('click', closeErrorMessage);
+    errorButton.addEventListener('click', closeErrorClickHandler);
 
-    document.addEventListener('keydown', closeErrorMessageEscape);
+    document.addEventListener('keydown', closeErrorEscapeHandler);
 
-    document.addEventListener('click', closeErrorMessage);
+    document.addEventListener('click', closeErrorClickHandler);
   };
 
-  var map = document.querySelector('.map');
-  var mapPinMain = map.querySelector('.map__pin--main');
   var mainAddress = document.querySelector('#address');
   var inputAd = document.querySelectorAll('.ad-form__element');
   var inputMapFilters = document.querySelectorAll('.map__filter');
   var inputMapFeatures = document.querySelectorAll('.map__features');
 
-  var onLoad = function () {
-    getSuccessMessage();
+  var setNotActiveMode = function () {
+    var deleteCard = window.card.hiddenCardHandler(map);
+    var adForm = document.querySelector('.ad-form');
     window.util.setFieldDisabled(inputAd, true);
     window.util.setFieldDisabled(inputMapFilters, true);
     window.util.setFieldDisabled(inputMapFeatures, true);
-    window.toggle.getAddress(true, mapPinMain, mainAddress);
     map.classList.add('map--faded');
+    deleteCard();
     window.pin.deleteAdElements();
+    getDefaultPinPosition();
+    adForm.classList.add('ad-form--disabled');
+  }
 
-    document.addEventListener('keydown', closeSuccessMessageEscape);
-    document.addEventListener('click', closeSuccessMessage);
+  var onLoad = function () {
+    getSuccessMessage();
+    setNotActiveMode();
+
+    document.addEventListener('keydown', closeSuccessEscapeHandler);
+    document.addEventListener('click', closeSuccessClickHandler);
   };
 
   var submitHandler = function (evt) {
@@ -91,7 +113,10 @@
   var resetButton = document.querySelector('.ad-form__reset');
 
   resetButton.addEventListener('click', function () {
+    filterForm.reset();
     form.reset();
+    setNotActiveMode();
+    window.toggle.getAddress(true, mapPinMain, mainAddress);
   })
 
   var showFilterPins = function () {
@@ -103,7 +128,16 @@
     }
   }
 
-  var filterForm = document.querySelector('.map__filters');
   var housingType = filterForm.querySelector('#housing-type');
-  housingType.addEventListener('change', showFilterPins);
+  var housingPrice = filterForm.querySelector('#housing-price');
+  var housingRooms = filterForm.querySelector('#housing-rooms');
+  var housingGuests = filterForm.querySelector('#housing-guests');
+  var features = filterForm.querySelectorAll('.map__checkbox');
+  housingType.addEventListener('change', window.debounce.debounce(showFilterPins));
+  housingPrice.addEventListener('change', window.debounce.debounce(showFilterPins));
+  housingRooms.addEventListener('change', window.debounce.debounce(showFilterPins));
+  housingGuests.addEventListener('change', window.debounce.debounce(showFilterPins));
+  for (var feature of features) {
+    feature.addEventListener('change', window.debounce.debounce(showFilterPins));
+  };
 })();

@@ -5,6 +5,7 @@
   var ELEMENT_MAIN_HEIGHT = 65;
   var MIN_Y = 130;
   var MAX_Y = 630;
+  var ENTER_BUTTON = 'Enter';
 
   var getAddress = function (isNotActive, pin, address) {
     var mainLocationX = Number.parseInt(pin.style.left, 10);
@@ -13,12 +14,17 @@
       : address.value = Math.round(mainLocationX + ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY + ELEMENT_MAIN_HEIGHT);
   };
 
-  var getMoveLimit = function () {
+  var getMoveLimit = function (isNotActive) {
     var body = document.querySelector('body');
     var fieldWidth = Number.parseInt(getComputedStyle(body).maxWidth, 10);
     var mainLocationX = Number.parseInt(mapPinMain.style.left, 10) + ELEMENT_MAIN_WIDTH / 2;
-    var mainLocationY = Number.parseInt(mapPinMain.style.top, 10) + ELEMENT_MAIN_HEIGHT;
+    var mainLocationY;
 
+    if (isNotActive) {
+      mainLocationY = Number.parseInt(mapPinMain.style.top, 10) + ELEMENT_MAIN_HEIGHT / 2;
+    } else {
+      mainLocationY = Number.parseInt(mapPinMain.style.top, 10) + ELEMENT_MAIN_HEIGHT;
+    }
 
     if (mainLocationX < 0) {
       mapPinMain.style.left = 0 - ELEMENT_MAIN_WIDTH / 2 + 'px';
@@ -26,12 +32,21 @@
     if (mainLocationX > fieldWidth) {
       mapPinMain.style.left = fieldWidth - ELEMENT_MAIN_WIDTH / 2 + 'px';
     };
-    if (mainLocationY < MIN_Y) {
-      mapPinMain.style.top = MIN_Y - ELEMENT_MAIN_HEIGHT + 'px';
-    };
-    if (mainLocationY > MAX_Y) {
-      mapPinMain.style.top = MAX_Y - ELEMENT_MAIN_HEIGHT + 'px';
-    };
+    if (isNotActive) {
+      if (mainLocationY < MIN_Y) {
+        mapPinMain.style.top = MIN_Y - ELEMENT_MAIN_HEIGHT / 2 + 'px';
+      };
+      if (mainLocationY > MAX_Y) {
+        mapPinMain.style.top = MAX_Y - ELEMENT_MAIN_HEIGHT / 2 + 'px';
+      };
+    } else {
+      if (mainLocationY < MIN_Y) {
+        mapPinMain.style.top = MIN_Y - ELEMENT_MAIN_HEIGHT + 'px';
+      };
+      if (mainLocationY > MAX_Y) {
+        mapPinMain.style.top = MAX_Y - ELEMENT_MAIN_HEIGHT + 'px';
+      };
+    }
   }
 
   // Функция заполнения поля Адрес
@@ -41,9 +56,12 @@
 
   // БЛОКИРОВКА/РАЗБЛОКИРОВКА ПОЛЕЙ ВВОДА И КАРТЫ
 
-  var inputAd = document.querySelectorAll('.ad-form__element');
-  var inputMapFilters = document.querySelectorAll('.map__filter');
+  var adForm = document.querySelector('.ad-form');
+  var filterForm = document.querySelector('.map__filters');
+  var inputAd = adForm.querySelectorAll('.ad-form__element');
+  var inputMapFilters = filterForm.querySelectorAll('.map__filter');
   var inputMapFeatures = document.querySelectorAll('.map__features');
+
 
   // Неактивный режим
   window.util.setFieldDisabled(inputAd, true);
@@ -54,15 +72,15 @@
   // Включение активного режима
   var onActiveMode = function () {
     map.classList.remove('map--faded');
+    adForm.classList.remove('ad-form--disabled');
     window.util.setFieldDisabled(inputAd, false);
-    // window.util.setFieldDisabled(inputMapFilters, false);
     window.util.setFieldDisabled(inputMapFeatures, false);
     getAddress(false, mapPinMain, mainAddress);
     window.pin.renderAdElements();
   };
 
   mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
+    if (evt.key === ENTER_BUTTON) {
       onActiveMode();
     }
   });
@@ -93,9 +111,13 @@
           mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
           mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
 
-          getMoveLimit();
-
-          getAddress(false, mapPinMain, mainAddress);
+          if (map.classList.contains('.map--faded')) {
+            getMoveLimit(true);
+            getAddress(true, mapPinMain, mainAddress);
+          } else {
+            getMoveLimit(false);
+            getAddress(false, mapPinMain, mainAddress);
+          }
         };
 
         var onMouseUp = function (upEvt) {
