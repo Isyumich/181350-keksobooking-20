@@ -11,7 +11,7 @@
     var mainLocationX = Number.parseInt(pin.style.left, 10);
     var mainLocationY = Number.parseInt(pin.style.top, 10);
     address.value = isNotActive ? Math.round(mainLocationX + ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY + ELEMENT_MAIN_HEIGHT / 2) :
-    Math.round(mainLocationX + ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY + ELEMENT_MAIN_HEIGHT);
+      Math.round(mainLocationX + ELEMENT_MAIN_WIDTH / 2) + ', ' + Math.round(mainLocationY + ELEMENT_MAIN_HEIGHT);
   };
 
   var getMoveLimit = function (isNotActive) {
