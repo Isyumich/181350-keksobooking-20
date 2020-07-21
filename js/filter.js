@@ -36,7 +36,7 @@
           var counter = 0;
           for (var feature of features) {
             if (pin.offer.features.indexOf(feature.value) !== -1) {
-              counter ++;
+              counter++;
             }
           }
           if (counter === features.length) {

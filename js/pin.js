@@ -6,7 +6,7 @@
   var PINS_COUNT = 5;
   var ENTER_BUTTON = 'Enter';
 
-// Функция создания метки
+  // Функция создания метки
   var pin = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
@@ -22,7 +22,7 @@
     return rentElement;
   };
 
-// Функция рендеринга элементов
+  // Функция рендеринга элементов
   var mapPins = document.querySelector('.map__pins');
 
   var renderAdElements = function () {
@@ -49,7 +49,7 @@
           mapPinElements[i].addEventListener('click', window.card.adCardHandler(mapPinElements[i], pins[indexFilterPins[elementNumber]]));
 
           mapPinElements[i].addEventListener('keydown', function (evt) {
-            if (evt.key === 'Enter') {
+            if (evt.key === ENTER_BUTTON) {
               window.card.adCardHandler(mapPinElements[i], pins[indexFilterPins[elementNumber]]);
             }
           });
@@ -83,7 +83,8 @@
       if (mapPinElements[i] !== mapPinMain) {
         mapPins.removeChild(mapPinElements[i]);
       }
-    };
+    }
+    ;
   };
   window.pin = {
     renderAdElements: renderAdElements,
