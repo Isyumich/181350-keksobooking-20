@@ -44,14 +44,16 @@
       var mapPinElements = document.querySelectorAll('.map__pin');
 
       mapPinElements.forEach(function (item, i, mapPinElements) {
-        var elementNumber = indexFilterPins[i-1];
-        mapPinElements[i].addEventListener('click', window.card.adCardHandler(mapPinElements[i], pins[elementNumber]));
+        if (i > 0) {
+          var elementNumber = i - 1;
+          mapPinElements[i].addEventListener('click', window.card.adCardHandler(mapPinElements[i], pins[indexFilterPins[elementNumber]]));
 
-        mapPinElements[i].addEventListener('keydown', function (evt) {
-          if (evt.key === ENTER_BUTTON) {
-            window.card.adCardHandler(mapPinElements[i], pins[elementNumber]);
-          }
-        });
+          mapPinElements[i].addEventListener('keydown', function (evt) {
+            if (evt.key === 'Enter') {
+              window.card.adCardHandler(mapPinElements[i], pins[indexFilterPins[elementNumber]]);
+            }
+          });
+        }
       })
 
       var inputMapFilters = document.querySelectorAll('.map__filter');
