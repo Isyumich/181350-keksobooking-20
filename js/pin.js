@@ -43,7 +43,7 @@
 
       var mapPinElements = document.querySelectorAll('.map__pin');
 
-      mapPinElements.forEach(function (item, i, mapPinElements) {
+      mapPinElements.forEach(function (item, i) {
         if (i > 0) {
           var elementNumber = i - 1;
           mapPinElements[i].addEventListener('click', window.card.adCardHandler(mapPinElements[i], pins[indexFilterPins[elementNumber]]));
@@ -54,7 +54,7 @@
             }
           });
         }
-      })
+      });
 
       var inputMapFilters = document.querySelectorAll('.map__filter');
       window.util.setFieldDisabled(inputMapFilters, false);
@@ -84,10 +84,10 @@
         mapPins.removeChild(mapPinElements[i]);
       }
     }
-    ;
   };
+
   window.pin = {
     renderAdElements: renderAdElements,
     deleteAdElements: deleteAdElements
-  }
+  };
 })();

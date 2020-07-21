@@ -29,31 +29,29 @@
     if (mainLocationX < 0) {
       mapPinMain.style.left = 0 - ELEMENT_MAIN_WIDTH / 2 + 'px';
     }
-    ;
+
     if (mainLocationX > fieldWidth) {
       mapPinMain.style.left = fieldWidth - ELEMENT_MAIN_WIDTH / 2 + 'px';
     }
-    ;
+
     if (isNotActive) {
       if (mainLocationY < MIN_Y) {
         mapPinMain.style.top = MIN_Y - ELEMENT_MAIN_HEIGHT / 2 + 'px';
       }
-      ;
+
       if (mainLocationY > MAX_Y) {
         mapPinMain.style.top = MAX_Y - ELEMENT_MAIN_HEIGHT / 2 + 'px';
       }
-      ;
+
     } else {
       if (mainLocationY < MIN_Y) {
         mapPinMain.style.top = MIN_Y - ELEMENT_MAIN_HEIGHT + 'px';
       }
-      ;
       if (mainLocationY > MAX_Y) {
         mapPinMain.style.top = MAX_Y - ELEMENT_MAIN_HEIGHT + 'px';
       }
-      ;
     }
-  }
+  };
 
   // Функция заполнения поля Адрес
   var map = document.querySelector('.map');
@@ -144,5 +142,5 @@
 
   window.toggle = {
     getAddress: getAddress
-  }
+  };
 })();
