@@ -139,5 +139,6 @@
   housingGuests.addEventListener('change', window.debounce.debounce(showFilterPins));
   for (var feature of features) {
     feature.addEventListener('change', window.debounce.debounce(showFilterPins));
-  };
+  }
+  ;
 })();

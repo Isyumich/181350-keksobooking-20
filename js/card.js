@@ -37,7 +37,7 @@
 
     cardElement.querySelector('.popup__avatar').src = rentalDescription.author.avatar;
     cardElement.querySelector('.popup__title').textContent = rentalDescription.offer.title;
-    cardElement.querySelector('.popup__text--address').textContent = rentalDescription.offer.address
+    cardElement.querySelector('.popup__text--address').textContent = rentalDescription.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = rentalDescription.offer.price + '₽/ночь';
 
     switch (rentalDescription.offer.type) {
@@ -58,7 +58,7 @@
     }
 
     cardElement.querySelector('.popup__text--capacity').textContent = rentalDescription.offer.rooms + ' комнаты для ' + rentalDescription.offer.guests + 'гостей';
-    cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' +  rentalDescription.offer.checkin + ', выезд до ' + rentalDescription.offer.checkout;
+    cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + rentalDescription.offer.checkin + ', выезд до ' + rentalDescription.offer.checkout;
 
     while (popupPhotos.firstChild) {
       popupPhotos.removeChild(popupPhotos.firstChild);
@@ -92,9 +92,9 @@
 
   // Функция показа карточки
   var adCardHandler = function (mapElement, cardElement) {
-    return function (){
+    return function () {
       var mapCard = document.querySelector('.map__card');
-      if(mapCard !== null) {
+      if (mapCard !== null) {
         map.removeChild(mapCard);
       }
 
@@ -104,17 +104,17 @@
 
       closeCardButton.addEventListener('click', hiddenCardHandler(map));
       document.addEventListener('keydown', hiddenCardHandlerEscape);
-    }
+    };
   };
 
   // Функция закрытия карточки
   var hiddenCardHandler = function (element) {
-    return function (){
+    return function () {
       var cardElement = document.querySelector('.map__card');
       if (cardElement) {
         element.removeChild(cardElement);
       }
-    }
+    };
   };
 
   var hiddenCardHandlerEscape = function (evt) {
@@ -125,10 +125,10 @@
       }
       document.removeEventListener('keydown', hiddenCardHandlerEscape);
     }
-  }
+  };
 
   window.card = {
     adCardHandler: adCardHandler,
     hiddenCardHandler: hiddenCardHandler
-  }
+  };
 })();

@@ -48,5 +48,5 @@
   window.backend = {
     load: load,
     save: save
-  }
+  };
 })();

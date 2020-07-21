@@ -15,41 +15,41 @@
   var priceField = form.querySelector('#price');
 
   var setValidCapacity = function () {
-      if (roomNumber.value === ROOM_MAX_VALUE) {
-        if (capacity.value !== CAPACITY_NO_GUESTS_VALUE) {
-          capacity.setCustomValidity('Сто комнат не для гостей');
-        } else {
-          capacity.setCustomValidity('');
-        }
+    if (roomNumber.value === ROOM_MAX_VALUE) {
+      if (capacity.value !== CAPACITY_NO_GUESTS_VALUE) {
+        capacity.setCustomValidity('Сто комнат не для гостей');
       } else {
-        if (capacity.value === CAPACITY_NO_GUESTS_VALUE) {
-          capacity.setCustomValidity('Значение "не для гостей" может быть выбрано только для 100 комнат');
-        } else if (roomNumber.value < capacity.value) {
-          capacity.setCustomValidity('Количество гостей не может превышать количество комнат');
-        } else {
-          capacity.setCustomValidity('');
-        }
+        capacity.setCustomValidity('');
       }
+    } else {
+      if (capacity.value === CAPACITY_NO_GUESTS_VALUE) {
+        capacity.setCustomValidity('Значение "не для гостей" может быть выбрано только для 100 комнат');
+      } else if (roomNumber.value < capacity.value) {
+        capacity.setCustomValidity('Количество гостей не может превышать количество комнат');
+      } else {
+        capacity.setCustomValidity('');
+      }
+    }
   };
 
   var setValidTypeField = function () {
-      switch (typeField.value) {
-        case 'bungalo':
-          priceField.min = BUNGALO_MIN_PRICE;
-          priceField.placeholder = priceField.min;
-          break;
-        case 'flat':
-          priceField.min = FLAT_MIN_PRICE;
-          priceField.placeholder = priceField.min;
-          break;
-        case 'house':
-          priceField.min = HOUSE_MIN_PRICE;
-          priceField.placeholder = priceField.min;
-          break;
-        case 'palace':
-          priceField.min = PALACE_MIN_PRICE;
-          priceField.placeholder = priceField.min;
-          break;
+    switch (typeField.value) {
+      case 'bungalo':
+        priceField.min = BUNGALO_MIN_PRICE;
+        priceField.placeholder = priceField.min;
+        break;
+      case 'flat':
+        priceField.min = FLAT_MIN_PRICE;
+        priceField.placeholder = priceField.min;
+        break;
+      case 'house':
+        priceField.min = HOUSE_MIN_PRICE;
+        priceField.placeholder = priceField.min;
+        break;
+      case 'palace':
+        priceField.min = PALACE_MIN_PRICE;
+        priceField.placeholder = priceField.min;
+        break;
     }
   };
 
