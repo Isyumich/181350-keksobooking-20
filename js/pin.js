@@ -31,9 +31,10 @@
       var filterPins = window.filter.getFilterPins(pins);
       var indexFilterPins = window.filter.getIndexFilterPins(filterPins, pins);
 
-      var pinsCount;
+
       var pinFragment = document.createDocumentFragment();
-      filterPins.length > PINS_COUNT ? pinsCount = PINS_COUNT : pinsCount = filterPins.length;
+
+      var pinsCount = filterPins.length > PINS_COUNT ? PINS_COUNT : filterPins.length;
 
       for (var j = 0; j < pinsCount; j++) {
         pinFragment.appendChild(renderRentAnnouncement(filterPins[j]));
