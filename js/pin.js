@@ -51,7 +51,8 @@
 
           mapPinElements[i].addEventListener('keydown', function (evt) {
             if (evt.key === ENTER_BUTTON) {
-              window.card.adCardHandler(mapPinElements[i], pins[indexFilterPins[elementNumber]]);
+              var foo = window.card.adCardHandler(mapPinElements[i], pins[indexFilterPins[elementNumber]]);
+              foo();
             }
           });
         }
