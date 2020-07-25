@@ -5,6 +5,7 @@
   var IMAGE_WIDTH = 45;
   var IMAGE_HEIGHT = 40;
   var IMAGE_DESCRIPTION = 'Фотография жилья';
+  var DEFAULT_AVATAR_SRC = 'img/muffin-grey.svg';
 
   var adFormField = document.querySelector('.ad-form__field');
   var adFormChooser = adFormField.querySelector('input[type=file]');
@@ -29,6 +30,10 @@
       reader.readAsDataURL(file);
     }
   });
+
+  var deleteUserAvatar = function () {
+    previewImage.src = DEFAULT_AVATAR_SRC;
+  };
 
   var adFormUpload = document.querySelector('.ad-form__upload');
   var housingPhotoChooser = adFormUpload.querySelector('input[type=file');
@@ -59,4 +64,17 @@
 
   });
 
+  var deleteHousingImage = function () {
+    var images = adFormPhoto.querySelectorAll('img');
+    if (images.length !== 0) {
+      for (var img of images) {
+        adFormPhoto.removeChild(img);
+      }
+    }
+  };
+
+  window.file = {
+    deleteUserAvatar: deleteUserAvatar,
+    deleteHousingImage: deleteHousingImage
+  };
 })();

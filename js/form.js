@@ -35,6 +35,8 @@
     body.removeChild(successMessageContainer);
     form.reset();
     filterForm.reset();
+    window.file.deleteHousingImage();
+    window.file.deleteUserAvatar();
     window.toggle.getAddress(true, mapPinMain, mainAddress);
     document.removeEventListener('click', closeSuccessClickHandler);
     document.removeEventListener('keydown', closeSuccessEscapeHandler);
@@ -53,6 +55,8 @@
     body.removeChild(errorMessageContainer);
     filterForm.reset();
     form.reset();
+    window.file.deleteUserAvatar();
+    window.file.deleteHousingImage();
     window.toggle.getAddress(true, mapPinMain, mainAddress);
     document.removeEventListener('click', closeErrorClickHandler);
     document.removeEventListener('keydown', closeErrorEscapeHandler);
@@ -115,6 +119,8 @@
   resetButton.addEventListener('click', function () {
     filterForm.reset();
     form.reset();
+    window.file.deleteUserAvatar();
+    window.file.deleteHousingImage();
     setNotActiveMode();
     window.toggle.getAddress(true, mapPinMain, mainAddress);
   })
